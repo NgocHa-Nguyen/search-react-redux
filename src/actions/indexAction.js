@@ -13,8 +13,6 @@ export const getDataList = () => {
     };
   };
   
-  
-
   export const setFetchData = fetchData => ({
     type : types.GET_DATA,
     data : fetchData

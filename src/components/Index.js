@@ -45,13 +45,11 @@ class Index extends Component {
 
   render() {
       const {search} = this.state;
-    //   const filteredTitle = users.filter(user => {
-    //       return user.title.indexOf(search.toLowerCase() !== -1)
-    //   })
+   
     return (
       <div className="row">
         <form>
-          <label>Seacrh</label>
+          <label>Search</label>
           <input onChange={this.updatedList}></input>
         </form>
         {this.listUser()}
