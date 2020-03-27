@@ -1,7 +1,9 @@
-import { GET_DATA } from "../types/indexType";
+import { GET_DATA, DETAIL_USER, SUM} from "../types/indexType";
 
 const initialState = {
-    APIdata: []
+    APIdata: [],
+    currenUser: {},
+    result : 0
 }
 export default function users(state = initialState, action) {
   switch (action.type) {
@@ -10,8 +12,21 @@ export default function users(state = initialState, action) {
         newState.APIdata = action.data
         return {...state, APIdata: newState.APIdata};
       }
+      case DETAIL_USER: {
+        const newState = {...state}
+        let APIdata = newState.APIdata;
+        let currenUser = APIdata.filter(user => user.id === action.id)[0];
+        console.log(currenUser);
+        return { ...state, currenUser };
+      }
+      case SUM: {
+        console.log(action);
+         const newState = {...state};
+        newState.result = state.result +1;
+        return(newState);
+      }
       default:
         return state;
-    }
+    };
 }
  

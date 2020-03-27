@@ -1,31 +1,32 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getDataList } from "../actions/indexAction";
+import { getDataList, detailUser, sumResult } from "../actions/indexAction";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Demo from "./demo";
+import SearchField from 'react-search-field';
+
 
 class Index extends Component {
-   constructor(props){
-        super(props);
-        this.state = {
-            search: ""
-          };
-        this.updatedList = this.updatedList.bind(this);
-   }
+  constructor(props) {
+    super(props);
+    this.state = {
+      search: "", 
+      users: this.props.users,
+      isResult : 0
+    };
+    this.updatedList = this.updatedList.bind(this);
+    this.callbackHandleOnClick = this.callbackHandleOnClick.bind(this);
+
+  }
+  
   componentDidMount() {
+    console.log(this.props.match)
     this.props.actionGetData();
   }
 
-  updatedList(event){
-    console.log(event.target.value.toLowerCase());
-    this.setState({
-        search: event.target.value
-      });
-  }
-
-  renderTitle = user => {
-      const {search} = this.state;
-      if( search !== "" && user.name.indexOf(search.toLowerCase) === -1){
-        return null;
-      }
+  onDetail(id) {
+    console.log(id);
+    this.props.actionDetailUser(id);
   }
 
   listUser() {
@@ -35,7 +36,9 @@ class Index extends Component {
         <div>
           <ul>
             <li>
-              <h4>{user.title}</h4>
+              <Link to="/detail" onClick={() => this.onDetail(user.id)}>
+                {user.title}
+              </Link>
             </li>
           </ul>
         </div>
@@ -43,16 +46,29 @@ class Index extends Component {
     } else return 0;
   }
 
+  updatedList(event) {
+
+  }
+  callbackHandleOnClick (result){
+    this.setState({
+      isResult : result
+    })
+    console.log(result);  }
+  
   render() {
-      const {search} = this.state;
-   
+    console.log(this.props);
     return (
       <div className="row">
-        <form>
+          <SearchField 
+              placeholder='Search item'
+              onChange={this.updatedList}
+            />
           <label>Search</label>
           <input onChange={this.updatedList}></input>
-        </form>
-        {this.listUser()}
+          <Demo handelOnClickParent = {this.callbackHandleOnClick}>
+          
+          </Demo>
+          <h1>{this.state.isResult}</h1>
       </div>
     );
   }
